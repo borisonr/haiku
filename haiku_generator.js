@@ -5,7 +5,7 @@ var cmudictFile = readCmudictFile('./cmudict.txt');
 function readCmudictFile(file){
   return fs.readFileSync(file).toString();
 }
-var words = [];
+var words = {};
 function formatData(data){    
    var lines = data.toString().split("\n"),
        lineSplit
@@ -20,12 +20,15 @@ function formatData(data){
     		syllableCount++;
     	}
     });
-    words[syllableCount].push(word);
     
-    //console.log("The word " + lineSplit[0] + " has this phoneme    layout: " + lineSplit[1]); 
-  });   
+    if(!words[syllableCount]){
+    	words[syllableCount] = [];};
+    words[syllableCount].push(word);
+  }); 
 }
 
 formatData(cmudictFile);
 
-haiku.createHaiku([[5], [7], [5]], words);
+
+var haiku = haiku.createHaiku([[2, 1, 2], [2, 3, 2], [2, 1, 2]], words);
+console.log(haiku);
